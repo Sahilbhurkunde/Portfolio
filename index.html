@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sahil Bhurkunde | Portfolio</title>
+  <title>Sahil Bhurkunde | Animated Portfolio</title>
   <style>
     * {
       margin: 0;
@@ -72,6 +72,45 @@
       50% { box-shadow: 0 0 45px rgba(192, 38, 211, 0.35); }
     }
 
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes zoomIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
     .container {
       width: 90%;
       max-width: 1200px;
@@ -104,6 +143,7 @@
       display: flex;
       gap: 24px;
       flex-wrap: wrap;
+      justify-content: center;
     }
 
     .nav-links a {
@@ -124,7 +164,9 @@
     }
 
     .btn-primary {
-      background: #67e8f9;
+      background: linear-gradient(90deg, #67e8f9, #60a5fa, #d946ef);
+      background-size: 200% 200%;
+      animation: gradientShift 6s ease infinite;
       color: #0f172a;
     }
 
@@ -153,8 +195,14 @@
       padding: 70px 0;
     }
 
-    .hero-text,
-    .hero-card,
+    .hero-text {
+      animation: slideInLeft 1s ease forwards;
+    }
+
+    .hero-card {
+      animation: slideInRight 1s ease forwards;
+    }
+
     section {
       animation: fadeUp 1s ease forwards;
     }
@@ -202,6 +250,24 @@
       gap: 14px;
     }
 
+    .typing-text {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 3px solid #67e8f9;
+      animation: typing 4s steps(28, end) infinite alternate, blink 0.7s step-end infinite;
+      max-width: fit-content;
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+
     .contact-box,
     .card,
     .skill-box,
@@ -226,8 +292,9 @@
     .project-box:hover,
     .cert-box:hover,
     .internship-box:hover {
-      transform: translateY(-6px);
+      transform: translateY(-8px) scale(1.01);
       border-color: rgba(103, 232, 249, 0.4);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
     }
 
     .contact-box h4 {
@@ -250,7 +317,7 @@
     .hero-card .card {
       padding: 40px 30px;
       text-align: center;
-      animation: pulseGlow 4s infinite ease-in-out;
+      animation: pulseGlow 4s infinite ease-in-out, zoomIn 1.1s ease forwards;
     }
 
     .avatar {
@@ -416,12 +483,43 @@
     }
 
     @media (max-width: 640px) {
-      .hero h1 {
-        font-size: 2.5rem;
+      header {
+        position: sticky;
+      }
+
+      nav {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+      }
+
+      .logo {
+        text-align: center;
       }
 
       .nav-links {
-        display: none;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        width: 100%;
+      }
+
+      .nav-links a {
+        text-align: center;
+        padding: 10px 8px;
+        border-radius: 12px;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.08);
+        font-size: 0.95rem;
+      }
+
+      nav .btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
       }
 
       .contact-grid,
@@ -460,8 +558,9 @@
   <main class="container">
     <section class="hero">
       <div class="hero-text">
-        <div class="tag">Web Developer Portfolio</div>
+        <div class="tag">Full Animated Web Developer Portfolio</div>
         <h1>Hi, I’m <span>Sahil Bhurkunde</span></h1>
+        <p class="typing-text">Web Developer • PHP • JavaScript • SQL</p>
         <p>
           Computer Engineering undergraduate focused on web development. I build responsive web applications using HTML, CSS, JavaScript, PHP, and SQL, and I enjoy turning ideas into practical projects.
         </p>
@@ -499,12 +598,12 @@
           </p>
           <div class="stats">
             <div class="stat-box">
-              <h3>1+</h3>
+              <h3>2+</h3>
               <p>Projects Built</p>
             </div>
             <div class="stat-box">
-              <h3>1 Mo</h3>
-              <p>Internship</p>
+              <h3>LMS</h3>
+              <p>Major Project</p>
             </div>
           </div>
         </div>
@@ -531,19 +630,19 @@
     </section>
 
     <section id="experience">
-      <h2 class="section-title">Internship Experience</h2>
+      <h2 class="section-title">Project Experience</h2>
       <div class="internship-box">
         <div class="internship-top">
           <div>
-            <h3>Web Development Intern</h3>
-            <span class="highlight">Your Company Name</span>
+            <h3>LMS App Project</h3>
+            <span class="highlight">React Native + Core PHP + MySQL</span>
           </div>
-          <div class="badge">1 Month Internship</div>
+          <div class="badge">Real Project Experience</div>
         </div>
         <ul>
-          <li>Worked on responsive web pages using HTML, CSS, JavaScript, and PHP.</li>
-          <li>Assisted in improving UI sections and basic frontend validation for real-world pages.</li>
-          <li>Collaborated on small web modules and gained practical industry workflow exposure.</li>
+          <li>Built a Learning Management System app with React Native frontend, Core PHP backend, and MySQL database.</li>
+          <li>Implemented user authentication, course management, lesson flow, enrollment, and progress tracking modules.</li>
+          <li>Worked on API integration, responsive mobile UI, backend logic, and database connectivity for the complete app workflow.</li>
         </ul>
       </div>
     </section>
@@ -560,7 +659,7 @@
 
     <section id="projects">
       <h2 class="section-title">Projects</h2>
-      <div class="project-box">
+      <div class="project-box" style="margin-bottom: 18px;">
         <div class="project-top">
           <div>
             <h3>Attendance Management System Using MAC Address</h3>
@@ -583,6 +682,30 @@
           <li>Designed responsive front-end interfaces and implemented form validation.</li>
         </ul>
       </div>
+
+      <div class="project-box">
+        <div class="project-top">
+          <div>
+            <h3>LMS Mobile App</h3>
+            <span class="highlight">Role: Full Stack Developer</span>
+          </div>
+          <div class="badge">Major Project</div>
+        </div>
+
+        <div class="tech-stack">
+          <span>React Native</span>
+          <span>Core PHP</span>
+          <span>MySQL</span>
+          <span>JWT</span>
+          <span>Cloudinary</span>
+        </div>
+
+        <ul>
+          <li>Created a full LMS platform with student, instructor, and admin functionality.</li>
+          <li>Integrated authentication, course creation, video lessons, enrollments, and progress calculation.</li>
+          <li>Worked on both backend APIs and mobile frontend screens for a complete end-to-end system.</li>
+        </ul>
+      </div>
     </section>
 
     <section id="certifications">
@@ -593,6 +716,13 @@
           <span class="highlight">Oracle Academy</span>
           <p style="color:#cbd5e1; line-height:1.8;">
             Covered SQL queries, joins, subqueries, functions, and database concepts.
+          </p>
+        </div>
+        <div class="cert-box">
+          <h3>AWS Certification</h3>
+          <span class="highlight">Amazon Web Services</span>
+          <p style="color:#cbd5e1; line-height:1.8;">
+            Learned cloud fundamentals, core AWS services, deployment basics, and practical knowledge of modern cloud platforms.
           </p>
         </div>
       </div>
