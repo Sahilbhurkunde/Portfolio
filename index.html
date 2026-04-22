@@ -121,22 +121,33 @@
       position: sticky;
       top: 0;
       z-index: 1000;
-      background: rgba(2, 6, 23, 0.75);
-      backdrop-filter: blur(12px);
+      background: rgba(2, 6, 23, 0.72);
+      backdrop-filter: blur(16px);
       border-bottom: 1px solid rgba(255,255,255,0.08);
+      transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+
+    header.scrolled {
+      background: rgba(2, 6, 23, 0.92);
+      box-shadow: 0 14px 32px rgba(0,0,0,0.25);
+      border-bottom-color: rgba(103, 232, 249, 0.12);
     }
 
     nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 18px 0;
+      padding: 16px 0;
+      position: relative;
+      gap: 18px;
     }
 
     .logo {
       font-size: 1.5rem;
       font-weight: bold;
       color: #67e8f9;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
     }
 
     .nav-links {
@@ -144,6 +155,51 @@
       gap: 24px;
       flex-wrap: wrap;
       justify-content: center;
+      align-items: center;
+    }
+
+    .menu-toggle {
+      display: none;
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.3s ease;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.18);
+    }
+
+    .menu-toggle:hover {
+      transform: translateY(-2px);
+      border-color: rgba(103, 232, 249, 0.4);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.24);
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: #fff;
+      margin: 3px 0;
+      border-radius: 999px;
+      transition: 0.3s ease;
+    }
+
+    .menu-toggle.active span:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
     }
 
     .nav-links a {
@@ -489,36 +545,60 @@
         align-items: center;
       }
 
+      .logo {
+        font-size: 1.15rem;
+        max-width: 60%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
       .menu-toggle {
-        display: block;
-        font-size: 1.5rem;
-        cursor: pointer;
+        display: inline-flex;
+        flex-direction: column;
       }
 
       .nav-links {
         position: absolute;
-        top: 70px;
+        top: calc(100% + 12px);
         left: 0;
         width: 100%;
-        background: rgba(2, 6, 23, 0.95);
-        backdrop-filter: blur(10px);
+        background: rgba(2, 6, 23, 0.96);
+        border: 1px solid rgba(255,255,255,0.08);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.28);
+        backdrop-filter: blur(14px);
+        border-radius: 22px;
         flex-direction: column;
-        align-items: center;
-        gap: 16px;
-        padding: 20px 0;
-        display: none;
+        align-items: stretch;
+        gap: 10px;
+        padding: 14px;
+        display: flex;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-8px) scale(0.98);
+        transition: opacity 0.28s ease, transform 0.28s ease;
       }
 
       .nav-links.active {
-        display: flex;
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0) scale(1);
       }
 
       .nav-links a {
-        width: 90%;
+        width: 100%;
         text-align: center;
-        padding: 12px;
-        border-radius: 12px;
-        background: rgba(255,255,255,0.05);
+        padding: 12px 14px;
+        border-radius: 14px;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.06);
+        font-size: 0.96rem;
+        transition: 0.25s ease;
+      }
+
+      .nav-links a:hover {
+        background: rgba(103, 232, 249, 0.10);
+        border-color: rgba(103, 232, 249, 0.24);
+        color: #67e8f9;
       }
 
       nav .btn {
@@ -527,6 +607,13 @@
 
       .hero h1 {
         font-size: 2.3rem;
+      }
+
+      .typing-text {
+        max-width: 100%;
+        white-space: normal;
+        border-right: none;
+        animation: fadeUp 1s ease forwards;
       }
 
       .contact-grid,
@@ -592,16 +679,21 @@
   <header>
     <div class="container">
       <nav>
-        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
         <div class="logo">Sahil Portfolio</div>
-        <div class="nav-links">
-          <a href="#about">About</a>
-          <a href="#skills">Skills</a>
-          <a href="#experience">Internship</a>
-          <a href="#projects">Projects</a>
-          <a href="#contact">Contact</a>
+        <div class="nav-links" id="mobileMenu">
+          <a href="#about" onclick="closeMenu()">About</a>
+          <a href="#skills" onclick="closeMenu()">Skills</a>
+          <a href="#experience" onclick="closeMenu()">Experience</a>
+          <a href="#projects" onclick="closeMenu()">Projects</a>
+          <a href="#contact" onclick="closeMenu()">Contact</a>
         </div>
         <a href="resume.pdf" class="btn btn-primary" download>Download Resume</a>
+        <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()" aria-label="Open menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        
       </nav>
     </div>
   </header>
@@ -797,10 +889,34 @@
   <footer>
     © 2026 Sahil Bhurkunde • Built with HTML and CSS
   </footer>
-  <script>
+    <script>
+    const header = document.querySelector('header');
+    const menu = document.getElementById('mobileMenu');
+    const menuToggle = document.getElementById('menuToggle');
+
     function toggleMenu() {
-      document.querySelector('.nav-links').classList.toggle('active');
+      menu.classList.toggle('active');
+      menuToggle.classList.toggle('active');
     }
+
+    function closeMenu() {
+      menu.classList.remove('active');
+      menuToggle.classList.remove('active');
+    }
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 20) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!menu.contains(e.target) && !menuToggle.contains(e.target)) {
+        closeMenu();
+      }
+    });
   </script>
 </body>
 </html>
