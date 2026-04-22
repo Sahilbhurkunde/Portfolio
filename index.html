@@ -483,9 +483,59 @@
     }
 
     @media (max-width: 640px) {
-      header {
-        position: sticky;
+      nav {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
       }
+
+      .menu-toggle {
+        display: block;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: rgba(2, 6, 23, 0.95);
+        backdrop-filter: blur(10px);
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        padding: 20px 0;
+        display: none;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .nav-links a {
+        width: 90%;
+        text-align: center;
+        padding: 12px;
+        border-radius: 12px;
+        background: rgba(255,255,255,0.05);
+      }
+
+      nav .btn {
+        display: none;
+      }
+
+      .hero h1 {
+        font-size: 2.3rem;
+      }
+
+      .contact-grid,
+      .skills-grid,
+      .cert-grid,
+      .stats {
+        grid-template-columns: 1fr;
+      }
+    }
 
       nav {
         flex-direction: column;
@@ -542,6 +592,7 @@
   <header>
     <div class="container">
       <nav>
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
         <div class="logo">Sahil Portfolio</div>
         <div class="nav-links">
           <a href="#about">About</a>
@@ -746,5 +797,10 @@
   <footer>
     © 2026 Sahil Bhurkunde • Built with HTML and CSS
   </footer>
+  <script>
+    function toggleMenu() {
+      document.querySelector('.nav-links').classList.toggle('active');
+    }
+  </script>
 </body>
 </html>
