@@ -133,3 +133,95 @@ if (form) {
 window.addEventListener('load', () => {
     typeWriter();
 });
+// Live Animated Background
+const bgCanvas = document.getElementById('bg-canvas');
+const ctx = bgCanvas ? bgCanvas.getContext('2d') : null;
+
+if (bgCanvas && ctx) {
+    let particles = [];
+    const particleCount = window.innerWidth < 768 ? 45 : 90;
+
+    function resizeCanvas() {
+        bgCanvas.width = window.innerWidth;
+        bgCanvas.height = window.innerHeight;
+    }
+
+    class Particle {
+        constructor() {
+            this.reset();
+            this.y = Math.random() * bgCanvas.height;
+        }
+
+        reset() {
+            this.x = Math.random() * bgCanvas.width;
+            this.y = bgCanvas.height + Math.random() * 100;
+            this.size = Math.random() * 2 + 1;
+            this.speedY = Math.random() * 0.7 + 0.2;
+            this.speedX = (Math.random() - 0.5) * 0.3;
+            this.alpha = Math.random() * 0.5 + 0.15;
+        }
+
+        update() {
+            this.y -= this.speedY;
+            this.x += this.speedX;
+
+            if (this.y < -20 || this.x < -20 || this.x > bgCanvas.width + 20) {
+                this.reset();
+            }
+        }
+
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(103, 232, 249, ${this.alpha})`;
+            ctx.fill();
+        }
+    }
+
+    function initParticles() {
+        particles = [];
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+    }
+
+    function drawConnections() {
+        for (let a = 0; a < particles.length; a++) {
+            for (let b = a + 1; b < particles.length; b++) {
+                const dx = particles[a].x - particles[b].x;
+                const dy = particles[a].y - particles[b].y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < 120) {
+                    ctx.beginPath();
+                    ctx.moveTo(particles[a].x, particles[a].y);
+                    ctx.lineTo(particles[b].x, particles[b].y);
+                    ctx.strokeStyle = `rgba(96, 165, 250, ${0.08 * (1 - distance / 120)})`;
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                }
+            }
+        }
+    }
+
+    function animateBackground() {
+        ctx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+
+        particles.forEach(particle => {
+            particle.update();
+            particle.draw();
+        });
+
+        drawConnections();
+        requestAnimationFrame(animateBackground);
+    }
+
+    resizeCanvas();
+    initParticles();
+    animateBackground();
+
+    window.addEventListener('resize', () => {
+        resizeCanvas();
+        initParticles();
+    });
+}
