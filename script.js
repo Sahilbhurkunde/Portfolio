@@ -230,6 +230,36 @@ if (bgCanvas && ctx) {
         }, 150);
     });
 }
+// Premium Cursor Glow
+const cursorGlow = document.createElement('div');
+cursorGlow.className = 'cursor-glow';
+document.body.appendChild(cursorGlow);
+
+let glowX = window.innerWidth / 2;
+let glowY = window.innerHeight / 2;
+let currentX = glowX;
+let currentY = glowY;
+
+window.addEventListener('mousemove', (e) => {
+    glowX = e.clientX;
+    glowY = e.clientY;
+    cursorGlow.style.opacity = '0.22';
+});
+
+window.addEventListener('mouseleave', () => {
+    cursorGlow.style.opacity = '0';
+});
+
+function animateCursorGlow() {
+    currentX += (glowX - currentX) * 0.12;
+    currentY += (glowY - currentY) * 0.12;
+    cursorGlow.style.transform = `translate(${currentX - 160}px, ${currentY - 160}px)`;
+    requestAnimationFrame(animateCursorGlow);
+}
+
+if (window.innerWidth > 768) {
+    animateCursorGlow();
+}
 
 // Init
 window.addEventListener('load', () => {
