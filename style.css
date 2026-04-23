@@ -79,12 +79,14 @@ header.scrolled {
 }
 
 .logo {
-    font-size: 2rem;
+    font-size: 1.25rem;
     font-weight: 800;
     color: var(--white);
     line-height: 1;
     white-space: nowrap;
     flex-shrink: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .logo span {
     color: var(--primary);
@@ -130,8 +132,8 @@ header.scrolled {
 /* Hero Section */
 .hero {
     min-height: auto;
-    padding-top: 140px;
-    padding-bottom: 60px;
+    padding-top: 110px;
+    padding-bottom: 30px;
     display: flex;
     align-items: flex-start;
 }
@@ -646,4 +648,71 @@ body::before {
         transform: translate(-20px, 20px) scale(1.05);
     }
 
+}
+
+/* Smooth global animation tuning */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+/* Smoother transitions */
+header,
+.nav-links,
+.nav-links a,
+.btn,
+.project-card,
+.skill-category,
+.achievement-card,
+.about-card,
+.contact-form,
+.profile-card,
+.stat,
+.avatar-circle {
+    transition:
+        transform 0.45s ease,
+        opacity 0.45s ease,
+        box-shadow 0.45s ease,
+        border-color 0.45s ease,
+        background 0.45s ease,
+        color 0.45s ease;
+}
+
+/* Softer reveal animation */
+.hidden {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    will-change: opacity, transform;
+}
+
+.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Buttons smoother */
+.btn:hover {
+    transform: translateY(-2px) scale(1.01);
+}
+
+/* Cards smoother */
+.project-card:hover,
+.skill-category:hover,
+.achievement-card:hover,
+.about-card:hover,
+.contact-form:hover,
+.profile-card:hover {
+    transform: translateY(-6px);
+}
+
+/* Avoid harsh movement */
+.hero-visual,
+.profile-card,
+.avatar-circle {
+    will-change: transform;
+    backface-visibility: hidden;
 }
