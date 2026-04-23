@@ -1,928 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sahil Bhurkunde | Animated Portfolio</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      scroll-behavior: smooth;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    body {
-      background: linear-gradient(135deg, #020617, #0f172a, #111827);
-      color: #ffffff;
-      overflow-x: hidden;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .bg-blur-1,
-    .bg-blur-2 {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(120px);
-      z-index: -1;
-      opacity: 0.45;
-      animation: float 8s ease-in-out infinite;
-    }
-
-    .bg-blur-1 {
-      width: 320px;
-      height: 320px;
-      background: #2563eb;
-      top: 60px;
-      left: 40px;
-    }
-
-    .bg-blur-2 {
-      width: 360px;
-      height: 360px;
-      background: #c026d3;
-      right: 40px;
-      bottom: 40px;
-      animation-duration: 10s;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px) translateX(0px); }
-      50% { transform: translateY(-20px) translateX(20px); }
-    }
-
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(40px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes pulseGlow {
-      0%, 100% { box-shadow: 0 0 25px rgba(34, 211, 238, 0.25); }
-      50% { box-shadow: 0 0 45px rgba(192, 38, 211, 0.35); }
-    }
-
-    @keyframes slideInLeft {
-      from {
-        opacity: 0;
-        transform: translateX(-50px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    @keyframes slideInRight {
-      from {
-        opacity: 0;
-        transform: translateX(50px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    @keyframes zoomIn {
-      from {
-        opacity: 0;
-        transform: scale(0.9);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .container {
-      width: 90%;
-      max-width: 1200px;
-      margin: auto;
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: rgba(2, 6, 23, 0.72);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-    }
-
-    header.scrolled {
-      background: rgba(2, 6, 23, 0.92);
-      box-shadow: 0 14px 32px rgba(0,0,0,0.25);
-      border-bottom-color: rgba(103, 232, 249, 0.12);
-    }
-
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 0;
-      position: relative;
-      gap: 10px;
-    }
-
-    .logo {
-      font-size: 1.3rem;
-      font-weight: bold;
-      color: #67e8f9;
-      letter-spacing: 0.3px;
-      white-space: nowrap;
-      flex: 1;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .menu-toggle {
-      display: none;
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.06);
-      color: #fff;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: 0.3s ease;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.18);
-      margin-left: auto;
-    }
-
-    .menu-toggle:hover {
-      transform: translateY(-2px);
-      border-color: rgba(103, 232, 249, 0.4);
-      box-shadow: 0 14px 30px rgba(0,0,0,0.24);
-    }
-
-    .menu-toggle span {
-      display: block;
-      width: 18px;
-      height: 2px;
-      background: #fff;
-      margin: 3px 0;
-      border-radius: 999px;
-      transition: 0.3s ease;
-    }
-
-    .menu-toggle.active span:nth-child(1) {
-      transform: translateY(8px) rotate(45deg);
-    }
-
-    .menu-toggle.active span:nth-child(2) {
-      opacity: 0;
-    }
-
-    .menu-toggle.active span:nth-child(3) {
-      transform: translateY(-8px) rotate(-45deg);
-    }
-
-    .nav-links a {
-      color: #e2e8f0;
-      transition: 0.3s;
-    }
-
-    .nav-links a:hover {
-      color: #67e8f9;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 12px 22px;
-      border-radius: 999px;
-      font-weight: bold;
-      transition: 0.3s;
-    }
-
-    .btn-primary {
-      background: linear-gradient(90deg, #67e8f9, #60a5fa, #d946ef);
-      background-size: 200% 200%;
-      animation: gradientShift 6s ease infinite;
-      color: #0f172a;
-    }
-
-    .btn-primary:hover {
-      background: #a5f3fc;
-      transform: translateY(-2px);
-    }
-
-    .btn-outline {
-      border: 1px solid rgba(255,255,255,0.18);
-      background: rgba(255,255,255,0.04);
-      color: white;
-    }
-
-    .btn-outline:hover {
-      background: rgba(255,255,255,0.10);
-      transform: translateY(-2px);
-    }
-
-    .hero {
-      min-height: 92vh;
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 40px;
-      align-items: center;
-      padding: 70px 0;
-    }
-
-    .hero-text {
-      animation: slideInLeft 1s ease forwards;
-    }
-
-    .hero-card {
-      animation: slideInRight 1s ease forwards;
-    }
-
-    section {
-      animation: fadeUp 1s ease forwards;
-    }
-
-    .tag {
-      display: inline-block;
-      padding: 10px 16px;
-      border-radius: 999px;
-      background: rgba(34, 211, 238, 0.1);
-      border: 1px solid rgba(34, 211, 238, 0.25);
-      color: #67e8f9;
-      margin-bottom: 20px;
-    }
-
-    .hero h1 {
-      font-size: 4rem;
-      line-height: 1.15;
-      margin-bottom: 20px;
-    }
-
-    .hero h1 span {
-      background: linear-gradient(to right, #67e8f9, #60a5fa, #d946ef);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero p {
-      color: #cbd5e1;
-      font-size: 1.1rem;
-      line-height: 1.9;
-      margin-bottom: 30px;
-      max-width: 700px;
-    }
-
-    .hero-buttons {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      margin-bottom: 30px;
-    }
-
-    .contact-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-    }
-
-    .typing-text {
-      display: inline-block;
-      overflow: hidden;
-      white-space: nowrap;
-      border-right: 3px solid #67e8f9;
-      animation: typing 4s steps(28, end) infinite alternate, blink 0.7s step-end infinite;
-      max-width: fit-content;
-    }
-
-    @keyframes typing {
-      from { width: 0; }
-      to { width: 100%; }
-    }
-
-    @keyframes blink {
-      50% { border-color: transparent; }
-    }
-
-    .contact-box,
-    .card,
-    .skill-box,
-    .project-box,
-    .cert-box,
-    .edu-box,
-    .internship-box,
-    .contact-section-box {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.08);
-      backdrop-filter: blur(12px);
-      border-radius: 24px;
-      transition: 0.3s ease;
-    }
-
-    .contact-box {
-      padding: 18px;
-    }
-
-    .contact-box:hover,
-    .skill-box:hover,
-    .project-box:hover,
-    .cert-box:hover,
-    .internship-box:hover {
-      transform: translateY(-8px) scale(1.01);
-      border-color: rgba(103, 232, 249, 0.4);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
-    }
-
-    .contact-box h4 {
-      color: #94a3b8;
-      font-size: 0.9rem;
-      margin-bottom: 6px;
-    }
-
-    .contact-box p {
-      color: #fff;
-      font-size: 0.95rem;
-      line-height: 1.5;
-      margin: 0;
-    }
-
-    .hero-card {
-      position: relative;
-    }
-
-    .hero-card .card {
-      padding: 40px 30px;
-      text-align: center;
-      animation: pulseGlow 4s infinite ease-in-out, zoomIn 1.1s ease forwards;
-    }
-
-    .avatar {
-      width: 110px;
-      height: 110px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      font-weight: bold;
-      margin: 0 auto 20px;
-      background: linear-gradient(135deg, #67e8f9, #3b82f6);
-      color: #0f172a;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-      margin-top: 25px;
-    }
-
-    .stat-box {
-      background: rgba(15, 23, 42, 0.75);
-      padding: 20px;
-      border-radius: 20px;
-    }
-
-    .stat-box h3 {
-      font-size: 2rem;
-      color: #67e8f9;
-    }
-
-    section {
-      padding: 40px 0;
-    }
-
-    .section-title {
-      font-size: 2rem;
-      margin-bottom: 24px;
-      color: #fff;
-    }
-
-    .about-box,
-    .edu-box,
-    .contact-section-box {
-      padding: 30px;
-      line-height: 1.9;
-      color: #cbd5e1;
-    }
-
-    .skills-grid,
-    .cert-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-
-    .skill-box,
-    .cert-box {
-      padding: 24px;
-    }
-
-    .skill-box span {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: rgba(34, 211, 238, 0.12);
-      color: #67e8f9;
-      font-size: 0.8rem;
-    }
-
-    .internship-box,
-    .project-box {
-      padding: 30px;
-    }
-
-    .internship-top,
-    .project-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      align-items: flex-start;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
-
-    .badge {
-      padding: 10px 16px;
-      border-radius: 999px;
-      background: rgba(34, 211, 238, 0.12);
-      color: #67e8f9;
-      border: 1px solid rgba(34, 211, 238, 0.2);
-      white-space: nowrap;
-    }
-
-    ul {
-      padding-left: 20px;
-      color: #cbd5e1;
-      line-height: 1.9;
-    }
-
-    .tech-stack {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin: 18px 0;
-    }
-
-    .tech-stack span {
-      background: rgba(255,255,255,0.08);
-      padding: 8px 14px;
-      border-radius: 999px;
-      font-size: 0.9rem;
-    }
-
-    .cert-box h3,
-    .edu-box h3,
-    .internship-box h3,
-    .project-box h3 {
-      margin-bottom: 10px;
-    }
-
-    .highlight {
-      color: #67e8f9;
-      margin-bottom: 14px;
-      display: block;
-      font-weight: bold;
-    }
-
-    .contact-section-box {
-      text-align: center;
-      background: linear-gradient(135deg, rgba(34,211,238,0.10), rgba(217,70,239,0.10));
-    }
-
-    .contact-actions {
-      margin-top: 24px;
-      display: flex;
-      justify-content: center;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
-
-    footer {
-      text-align: center;
-      padding: 24px;
-      color: #94a3b8;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      margin-top: 30px;
-    }
-
-    @media (max-width: 992px) {
-      .hero {
-        grid-template-columns: 1fr;
-      }
-
-      .skills-grid,
-      .cert-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 640px) {
-      nav {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .logo {
-        font-size: 1.2rem;
-        text-align: left;
-        flex: 1;
-      }
-
-      .menu-toggle {
-        display: flex;
-        flex-direction: column;
-      }
-
-      .menu-toggle {
-        display: inline-flex;
-        flex-direction: column;
-      }
-
-      .nav-links {
-        position: absolute;
-        top: calc(100% + 12px);
-        left: 0;
-        width: 100%;
-        background: rgba(2, 6, 23, 0.96);
-        border: 1px solid rgba(255,255,255,0.08);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.28);
-        backdrop-filter: blur(14px);
-        border-radius: 22px;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-        padding: 14px;
-        display: flex;
-        opacity: 0;
-        pointer-events: none;
-        transform: translateY(-8px) scale(0.98);
-        transition: opacity 0.28s ease, transform 0.28s ease;
-      }
-
-      .nav-links.active {
-        opacity: 1;
-        pointer-events: auto;
-        transform: translateY(0) scale(1);
-      }
-
-      .nav-links a {
-        width: 100%;
-        text-align: center;
-        padding: 12px 14px;
-        border-radius: 14px;
-        background: rgba(255,255,255,0.04);
-        border: 1px solid rgba(255,255,255,0.06);
-        font-size: 0.96rem;
-        transition: 0.25s ease;
-      }
-
-      .nav-links a:hover {
-        background: rgba(103, 232, 249, 0.10);
-        border-color: rgba(103, 232, 249, 0.24);
-        color: #67e8f9;
-      }
-
-      nav .btn {
-        display: none;
-      }
-
-      .hero h1 {
-        font-size: 2.3rem;
-      }
-
-      .typing-text {
-        max-width: 100%;
-        white-space: normal;
-        border-right: none;
-        animation: fadeUp 1s ease forwards;
-      }
-
-      .contact-grid,
-      .skills-grid,
-      .cert-grid,
-      .stats {
-        grid-template-columns: 1fr;
-      }
-    }
-
-      nav {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 14px;
-      }
-
-      .logo {
-        text-align: center;
-      }
-
-      .nav-links {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-        width: 100%;
-      }
-
-      .nav-links a {
-        text-align: center;
-        padding: 10px 8px;
-        border-radius: 12px;
-        background: rgba(255,255,255,0.05);
-        border: 1px solid rgba(255,255,255,0.08);
-        font-size: 0.95rem;
-      }
-
-      nav .btn {
-        width: 100%;
-        text-align: center;
-      }
-
-      .hero h1 {
-        font-size: 2.5rem;
-      }
-
-      .contact-grid,
-      .skills-grid,
-      .cert-grid,
-      .stats {
-        grid-template-columns: 1fr;
-      }
-
-      .container {
-        width: 92%;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sahil Bhurkunde | Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-  <div class="bg-blur-1"></div>
-  <div class="bg-blur-2"></div>
+    <div class="bg-blur-1"></div>
+    <div class="bg-blur-2"></div>
 
-  <header>
-    <div class="container">
-      <nav>
-        <div class="logo">Sahil Portfolio</div>
-        <div class="nav-links" id="mobileMenu">
-          <a href="#about" onclick="closeMenu()">About</a>
-          <a href="#skills" onclick="closeMenu()">Skills</a>
-          <a href="#experience" onclick="closeMenu()">Experience</a>
-          <a href="#projects" onclick="closeMenu()">Projects</a>
-          <a href="#contact" onclick="closeMenu()">Contact</a>
-        </div>
-        <a href="resume.pdf" class="btn btn-primary" download>Download Resume</a>
-        <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()" aria-label="Open menu">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-        
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    <section class="hero">
-      <div class="hero-text">
-        <div class="tag">Full Animated Web Developer Portfolio</div>
-        <h1>Hi, I’m <span>Sahil Bhurkunde</span></h1>
-        <p class="typing-text">Web Developer • PHP • JavaScript • SQL</p>
-        <p>
-          Computer Engineering undergraduate focused on web development. I build responsive web applications using HTML, CSS, JavaScript, PHP, and SQL, and I enjoy turning ideas into practical projects.
-        </p>
-        <div class="hero-buttons">
-          <a href="#projects" class="btn btn-primary">View Projects</a>
-          <a href="#contact" class="btn btn-outline">Contact Me</a>
-        </div>
-
-        <div class="contact-grid">
-          <a class="contact-box" href="mailto:sahilbhurkunde@gmail.com">
-            <h4>Email</h4>
-            <p>sahilbhurkunde@gmail.com</p>
-          </a>
-          <a class="contact-box" href="tel:+917378774776">
-            <h4>Phone</h4>
-            <p>+91 7378774776</p>
-          </a>
-          <a class="contact-box" href="https://maps.google.com/?q=Pune,Maharashtra" target="_blank">
-            <h4>Location</h4>
-            <p>Pune, Maharashtra</p>
-          </a>
-          <a class="contact-box" href="#contact">
-            <h4>Career Goal</h4>
-            <p>Web Development Internship</p>
-          </a>
-        </div>
-      </div>
-
-      <div class="hero-card">
-        <div class="card">
-          <div class="avatar">SB</div>
-          <h2>Front-End & Web Developer</h2>
-          <p style="margin-top: 14px; color: #cbd5e1; line-height: 1.8;">
-            Passionate about modern UI, smooth animation, responsive design, and practical web solutions.
-          </p>
-          <div class="stats">
-            <div class="stat-box">
-              <h3>2+</h3>
-              <p>Projects Built</p>
+    <header id="header">
+        <div class="container nav-container">
+            <div class="logo">SB<span>.</span></div>
+            <nav>
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#skills">Skills</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#education">Education</a></li>
+                    <li><a href="#achievements">Achievements</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
             </div>
-            <div class="stat-box">
-              <h3>LMS</h3>
-              <p>Major Project</p>
+        </div>
+    </header>
+
+    <main>
+        <!-- Home Section -->
+        <section id="home" class="hero">
+            <div class="container hero-grid">
+                <div class="hero-content">
+                    <span class="tagline">Available for Internships</span>
+                    <h1>Hi, I'm <span class="accent">Sahil Bhurkunde</span></h1>
+                    <h2 class="typing-text">Full Stack Web Developer</h2>
+                    <p>3rd Year Computer Engineering student at PCCOE&R. Specialized in building robust web applications and mobile solutions using PHP, React Native, and SQL.</p>
+                    <div class="hero-btns">
+                        <a href="#projects" class="btn btn-primary">View My Work</a>
+                        <a href="#contact" class="btn btn-secondary">Let's Talk</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="profile-card">
+                        <div class="avatar-circle">SB</div>
+                        <div class="card-stats">
+                            <div class="stat">
+                                <strong>2+</strong>
+                                <span>Years Learning</span>
+                            </div>
+                            <div class="stat">
+                                <strong>5+</strong>
+                                <span>Core Techs</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="container">
+                <h2 class="section-title">About Me</h2>
+                <div class="about-card">
+                    <p>I am a passionate Computer Engineering student at Pimpri Chinchwad College of Engineering & Research (PCCOE&R), Pune. My journey in tech is driven by a curiosity to solve real-world problems through code.</p>
+                    <p>Currently, I focus on bridging the gap between front-end aesthetics and back-end logic. Whether it's a web-based attendance system or a comprehensive Learning Management System, I enjoy the challenge of end-to-end development.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section bg-light">
+            <div class="container">
+                <h2 class="section-title">My Tech Stack</h2>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h3>Frontend</h3>
+                        <div class="skill-tags">
+                            <span>HTML5</span><span>CSS3</span><span>JavaScript</span><span>React Native</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Backend</h3>
+                        <div class="skill-tags">
+                            <span>PHP (Core)</span><span>Java</span><span>C++</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Database & Tools</h3>
+                        <div class="skill-tags">
+                            <span>MySQL</span><span>SQL (Oracle)</span><span>Git</span><span>VS Code</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section">
+            <div class="container">
+                <h2 class="section-title">Featured Projects</h2>
+                <div class="projects-container">
+                    <!-- Project 1 -->
+                    <div class="project-card">
+                        <div class="project-info">
+                            <span class="project-tag">Major Project</span>
+                            <h3>LMS Mobile Application</h3>
+                            <p>A full-featured Learning Management System with distinct roles for students and instructors. Includes course enrollment, video playback, and progress tracking.</p>
+                            <div class="project-tech">
+                                <span>React Native</span><span>PHP</span><span>MySQL</span><span>Cloudinary</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Project 2 -->
+                    <div class="project-card">
+                        <div class="project-info">
+                            <span class="project-tag">Academic</span>
+                            <h3>Attendance via MAC Address</h3>
+                            <p>Web-based system designed to prevent proxy attendance by verifying device MAC addresses during the login process.</p>
+                            <div class="project-tech">
+                                <span>PHP</span><span>JavaScript</span><span>MySQL</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="section bg-light">
+            <div class="container">
+                <h2 class="section-title">Education</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">2023 - 2027 (Expected)</div>
+                        <div class="timeline-content">
+                            <h3>B.E. Computer Engineering</h3>
+                            <p>Pimpri Chinchwad College of Engineering & Research (PCCOE&R)</p>
+                            <span>Pune, Maharashtra | SPPU</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Achievements Section -->
+        <section id="achievements" class="section">
+            <div class="container">
+                <h2 class="section-title">Achievements & Certifications</h2>
+                <div class="achievements-grid">
+                    <div class="achievement-card">
+                        <i class="fas fa-certificate"></i>
+                        <h3>Oracle Programming with SQL</h3>
+                        <p>Oracle Academy certification covering advanced SQL queries and database management.</p>
+                    </div>
+                    <div class="achievement-card">
+                        <i class="fab fa-aws"></i>
+                        <h3>AWS Academy Graduate</h3>
+                        <p>Cloud Foundations certification focusing on core AWS services and architecture.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resume Section -->
+        <section id="resume" class="section bg-dark">
+            <div class="container resume-content">
+                <h2>Ready to see my full history?</h2>
+                <p>Download my comprehensive resume for a detailed look at my technical background and academic performance.</p>
+                <a href="#" class="btn btn-primary" download><i class="fas fa-download"></i> Download Resume</a>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <div class="container">
+                <h2 class="section-title">Get In Touch</h2>
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <div class="info-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <h4>Email</h4>
+                                <p>sahilbhurkunde@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <h4>Phone</h4>
+                                <p>+91 7378774776</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-location-dot"></i>
+                            <div>
+                                <h4>Location</h4>
+                                <p>Pune, Maharashtra</p>
+                            </div>
+                        </div>
+                    </div>
+                    <form class="contact-form">
+                        <input type="text" placeholder="Your Name" required>
+                        <input type="email" placeholder="Your Email" required>
+                        <textarea placeholder="Your Message" rows="5" required></textarea>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Sahil Bhurkunde. Designed with <i class="fas fa-heart"></i></p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+            </div>
         </div>
-      </div>
-    </section>
+    </footer>
 
-    <section id="about">
-      <h2 class="section-title">About Me</h2>
-      <div class="about-box">
-        I am a third-year Computer Engineering student at Pimpri Chinchwad College of Engineering &amp; Research (PCCOE&amp;R), affiliated with Savitribai Phule Pune University. I am seeking web development opportunities where I can apply my technical foundation, strengthen my practical skills, and contribute to real-world projects.
-      </div>
-    </section>
-
-    <section id="skills">
-      <h2 class="section-title">Technical Skills</h2>
-      <div class="skills-grid">
-        <div class="skill-box"><h3>HTML5</h3><span>Skill</span></div>
-        <div class="skill-box"><h3>CSS3</h3><span>Skill</span></div>
-        <div class="skill-box"><h3>JavaScript</h3><span>Skill</span></div>
-        <div class="skill-box"><h3>PHP</h3><span>Skill</span></div>
-        <div class="skill-box"><h3>SQL</h3><span>Skill</span></div>
-        <div class="skill-box"><h3>VS Code</h3><span>Tool</span></div>
-      </div>
-    </section>
-
-    <section id="experience">
-      <h2 class="section-title">Project Experience</h2>
-      <div class="internship-box">
-        <div class="internship-top">
-          <div>
-            <h3>LMS App Project</h3>
-            <span class="highlight">React Native + Core PHP + MySQL</span>
-          </div>
-          <div class="badge">Real Project Experience</div>
-        </div>
-        <ul>
-          <li>Built a Learning Management System app with React Native frontend, Core PHP backend, and MySQL database.</li>
-          <li>Implemented user authentication, course management, lesson flow, enrollment, and progress tracking modules.</li>
-          <li>Worked on API integration, responsive mobile UI, backend logic, and database connectivity for the complete app workflow.</li>
-        </ul>
-      </div>
-    </section>
-
-    <section id="education">
-      <h2 class="section-title">Education</h2>
-      <div class="edu-box">
-        <h3>B.E. Computer Engineering</h3>
-        <p>Pimpri Chinchwad College of Engineering &amp; Research (PCCOE&amp;R)</p>
-        <p>Savitribai Phule Pune University (SPPU)</p>
-        <p style="margin-top: 14px; color: #67e8f9;">Pursuing Third Year • Expected Graduation: 2027</p>
-      </div>
-    </section>
-
-    <section id="projects">
-      <h2 class="section-title">Projects</h2>
-      <div class="project-box" style="margin-bottom: 18px;">
-        <div class="project-top">
-          <div>
-            <h3>Attendance Management System Using MAC Address</h3>
-            <span class="highlight">Role: Front-End Developer</span>
-          </div>
-          <div class="badge">Academic Project</div>
-        </div>
-
-        <div class="tech-stack">
-          <span>PHP</span>
-          <span>HTML</span>
-          <span>CSS</span>
-          <span>JavaScript</span>
-          <span>SQL</span>
-        </div>
-
-        <ul>
-          <li>Developed a web-based attendance system using device MAC address verification.</li>
-          <li>Reduced proxy attendance and improved accuracy through automated identification.</li>
-          <li>Designed responsive front-end interfaces and implemented form validation.</li>
-        </ul>
-      </div>
-
-      <div class="project-box">
-        <div class="project-top">
-          <div>
-            <h3>LMS Mobile App</h3>
-            <span class="highlight">Role: Full Stack Developer</span>
-          </div>
-          <div class="badge">Major Project</div>
-        </div>
-
-        <div class="tech-stack">
-          <span>React Native</span>
-          <span>Core PHP</span>
-          <span>MySQL</span>
-          <span>JWT</span>
-          <span>Cloudinary</span>
-        </div>
-
-        <ul>
-          <li>Created a full LMS platform with student, instructor, and admin functionality.</li>
-          <li>Integrated authentication, course creation, video lessons, enrollments, and progress calculation.</li>
-          <li>Worked on both backend APIs and mobile frontend screens for a complete end-to-end system.</li>
-        </ul>
-      </div>
-    </section>
-
-    <section id="certifications">
-      <h2 class="section-title">Certifications</h2>
-      <div class="cert-grid">
-        <div class="cert-box">
-          <h3>Oracle Programming with SQL</h3>
-          <span class="highlight">Oracle Academy</span>
-          <p style="color:#cbd5e1; line-height:1.8;">
-            Covered SQL queries, joins, subqueries, functions, and database concepts.
-          </p>
-        </div>
-        <div class="cert-box">
-          <h3>AWS Certification</h3>
-          <span class="highlight">Amazon Web Services</span>
-          <p style="color:#cbd5e1; line-height:1.8;">
-            Learned cloud fundamentals, core AWS services, deployment basics, and practical knowledge of modern cloud platforms.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact">
-      <h2 class="section-title">Contact</h2>
-      <div class="contact-section-box">
-        <h3 style="font-size: 2rem; margin-bottom: 14px; color: #fff;">Let’s Build Something Great</h3>
-        <p>
-          I am looking for web development opportunities where I can contribute, learn, and grow through real projects and teamwork.
-        </p>
-        <div class="contact-actions">
-          <a href="mailto:sahilbhurkunde@gmail.com" class="btn btn-primary">Email Me</a>
-          <a href="tel:+917378774776" class="btn btn-outline">Call Me</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    © 2026 Sahil Bhurkunde • Built with HTML and CSS
-  </footer>
-    <script>
-    const header = document.querySelector('header');
-    const menu = document.getElementById('mobileMenu');
-    const menuToggle = document.getElementById('menuToggle');
-
-    function toggleMenu() {
-      menu.classList.toggle('active');
-      menuToggle.classList.toggle('active');
-    }
-
-    function closeMenu() {
-      menu.classList.remove('active');
-      menuToggle.classList.remove('active');
-    }
-
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 20) {
-        header.classList.add('scrolled');
-      } else {
-        header.classList.remove('scrolled');
-      }
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!menu.contains(e.target) && !menuToggle.contains(e.target)) {
-        closeMenu();
-      }
-    });
-  </script>
+    <script src="script.js"></script>
 </body>
 </html>
