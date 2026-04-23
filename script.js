@@ -1,24 +1,67 @@
-// Header Scroll Effect
 const header = document.getElementById('header');
+const menuToggle = document.getElementById('mobile-menu');
+const navLinks = document.getElementById('nav-links');
+const heroVisual = document.querySelector('.hero-visual');
+const form = document.querySelector('.contact-form');
+const sections = document.querySelectorAll('section');
+const navItems = document.querySelectorAll('.nav-links a');
+const typingElement = document.querySelector('.typing-text');
+const bgCanvas = document.getElementById('bg-canvas');
+const ctx = bgCanvas ? bgCanvas.getContext('2d') : null;
+
+let scrollTicking = false;
+
+// Header + Active Nav + Parallax
+function handleScroll() {
+    const scrollY = window.scrollY;
+
+    if (header) {
+        if (scrollY > 40) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    }
+
+    let currentSection = '';
+    sections.forEach((section) => {
+        const sectionTop = section.offsetTop - 140;
+        const sectionHeight = section.offsetHeight;
+
+        if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+            currentSection = section.getAttribute('id');
+        }
+    });
+
+    navItems.forEach((link) => {
+        link.classList.remove('active-link');
+        if (link.getAttribute('href') === `#${currentSection}`) {
+            link.classList.add('active-link');
+        }
+    });
+
+    if (heroVisual && window.innerWidth > 768) {
+        heroVisual.style.transform = `translateY(${scrollY * 0.05}px)`;
+    }
+
+    scrollTicking = false;
+}
+
 window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-        header.classList.add('scrolled');
-    } else {
-        header.classList.remove('scrolled');
+    if (!scrollTicking) {
+        window.requestAnimationFrame(handleScroll);
+        scrollTicking = true;
     }
 });
 
-// Mobile Menu Toggle
-const menuToggle = document.getElementById('mobile-menu');
-const navLinks = document.getElementById('nav-links');
-
+// Mobile Menu
 if (menuToggle && navLinks) {
     menuToggle.addEventListener('click', () => {
         navLinks.classList.toggle('active');
         menuToggle.classList.toggle('open');
     });
 
-    document.querySelectorAll('.nav-links a').forEach(link => {
+    document.querySelectorAll('.nav-links a').forEach((link) => {
         link.addEventListener('click', () => {
             navLinks.classList.remove('active');
             menuToggle.classList.remove('open');
@@ -26,102 +69,60 @@ if (menuToggle && navLinks) {
     });
 }
 
-// Smooth Scroll for all links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+// Smooth Scroll
+document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
 
         const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            const offset = header ? header.offsetHeight : 0;
-            const top = target.offsetTop - offset;
+        if (!target) return;
 
-            window.scrollTo({
-                top,
-                behavior: 'smooth'
-            });
-        }
+        const offset = header ? header.offsetHeight : 0;
+        const top = target.offsetTop - offset;
+
+        window.scrollTo({
+            top,
+            behavior: 'smooth'
+        });
     });
 });
 
 // Typing Animation
-const text = "Full Stack Web Developer";
-const typingElement = document.querySelector('.typing-text');
-let i = 0;
+const typingText = "Full Stack Web Developer";
+let typingIndex = 0;
 
 function typeWriter() {
-    if (typingElement && i < text.length) {
-        typingElement.innerHTML = text.substring(0, i + 1);
-        i++;
-        setTimeout(typeWriter, 100);
+    if (typingElement && typingIndex < typingText.length) {
+        typingElement.textContent = typingText.substring(0, typingIndex + 1);
+        typingIndex++;
+        setTimeout(typeWriter, 90);
     }
 }
 
-// Scroll Reveal Animation
-const revealElements = document.querySelectorAll(`
-    .section-title,
-    .about-card,
-    .skill-category,
-    .project-card,
-    .timeline-item,
-    .achievement-card,
-    .info-item,
-    .contact-form,
-    .profile-card,
-    .resume-content
-`);
+// Scroll Reveal
+const revealElements = document.querySelectorAll(
+    '.section-title, .about-card, .skill-category, .project-card, .timeline-item, .achievement-card, .info-item, .contact-form, .profile-card, .resume-content'
+);
 
-const observer = new IntersectionObserver((entries) => {
+const revealObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach((entry) => {
         if (entry.isIntersecting) {
             entry.target.classList.add('show');
+            observer.unobserve(entry.target);
         }
     });
 }, {
-    threshold: 0.15
+    threshold: 0.12,
+    rootMargin: '0px 0px -40px 0px'
 });
 
 revealElements.forEach((el, index) => {
     el.classList.add('hidden');
-    el.style.transitionDelay = `${index * 0.08}s`;
-    observer.observe(el);
-});
-
-// Active Nav Link on Scroll
-const sections = document.querySelectorAll('section');
-const navItems = document.querySelectorAll('.nav-links a');
-
-window.addEventListener('scroll', () => {
-    let current = '';
-
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop - 120;
-        const sectionHeight = section.clientHeight;
-
-        if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
-            current = section.getAttribute('id');
-        }
-    });
-
-    navItems.forEach(link => {
-        link.classList.remove('active-link');
-        if (link.getAttribute('href') === `#${current}`) {
-            link.classList.add('active-link');
-        }
-    });
-});
-
-// Hero Parallax Effect
-const heroVisual = document.querySelector('.hero-visual');
-window.addEventListener('scroll', () => {
-    if (heroVisual) {
-        const scrollValue = window.scrollY;
-        heroVisual.style.transform = `translateY(${scrollValue * 0.12}px)`;
-    }
+    el.style.transitionDelay = `${Math.min(index * 0.05, 0.25)}s`;
+    revealObserver.observe(el);
 });
 
 // Contact Form Demo
-const form = document.querySelector('.contact-form');
 if (form) {
     form.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -129,17 +130,15 @@ if (form) {
     });
 }
 
-// Start typing animation on load
-window.addEventListener('load', () => {
-    typeWriter();
-});
 // Live Animated Background
-const bgCanvas = document.getElementById('bg-canvas');
-const ctx = bgCanvas ? bgCanvas.getContext('2d') : null;
-
 if (bgCanvas && ctx) {
     let particles = [];
-    const particleCount = window.innerWidth < 768 ? 45 : 90;
+    let animationFrameId;
+    let resizeTimeout;
+
+    function getParticleCount() {
+        return window.innerWidth < 768 ? 28 : 55;
+    }
 
     function resizeCanvas() {
         bgCanvas.width = window.innerWidth;
@@ -149,25 +148,24 @@ if (bgCanvas && ctx) {
     class Particle {
         constructor() {
             this.reset();
-            this.y = Math.random() * bgCanvas.height;
         }
 
         reset() {
             this.x = Math.random() * bgCanvas.width;
-            this.y = bgCanvas.height + Math.random() * 100;
-            this.size = Math.random() * 2 + 1;
-            this.speedY = Math.random() * 0.7 + 0.2;
-            this.speedX = (Math.random() - 0.5) * 0.3;
-            this.alpha = Math.random() * 0.5 + 0.15;
+            this.y = Math.random() * bgCanvas.height;
+            this.size = Math.random() * 1.8 + 1;
+            this.speedY = Math.random() * 0.25 + 0.08;
+            this.speedX = (Math.random() - 0.5) * 0.12;
+            this.alpha = Math.random() * 0.35 + 0.08;
         }
 
         update() {
             this.y -= this.speedY;
             this.x += this.speedX;
 
-            if (this.y < -20 || this.x < -20 || this.x > bgCanvas.width + 20) {
-                this.reset();
-            }
+            if (this.y < -10) this.y = bgCanvas.height + 10;
+            if (this.x < -10) this.x = bgCanvas.width + 10;
+            if (this.x > bgCanvas.width + 10) this.x = -10;
         }
 
         draw() {
@@ -180,6 +178,8 @@ if (bgCanvas && ctx) {
 
     function initParticles() {
         particles = [];
+        const particleCount = getParticleCount();
+
         for (let i = 0; i < particleCount; i++) {
             particles.push(new Particle());
         }
@@ -192,11 +192,11 @@ if (bgCanvas && ctx) {
                 const dy = particles[a].y - particles[b].y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
 
-                if (distance < 120) {
+                if (distance < 90) {
                     ctx.beginPath();
                     ctx.moveTo(particles[a].x, particles[a].y);
                     ctx.lineTo(particles[b].x, particles[b].y);
-                    ctx.strokeStyle = `rgba(96, 165, 250, ${0.08 * (1 - distance / 120)})`;
+                    ctx.strokeStyle = `rgba(96, 165, 250, ${0.035 * (1 - distance / 90)})`;
                     ctx.lineWidth = 1;
                     ctx.stroke();
                 }
@@ -207,13 +207,13 @@ if (bgCanvas && ctx) {
     function animateBackground() {
         ctx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
 
-        particles.forEach(particle => {
+        for (const particle of particles) {
             particle.update();
             particle.draw();
-        });
+        }
 
         drawConnections();
-        requestAnimationFrame(animateBackground);
+        animationFrameId = requestAnimationFrame(animateBackground);
     }
 
     resizeCanvas();
@@ -221,7 +221,18 @@ if (bgCanvas && ctx) {
     animateBackground();
 
     window.addEventListener('resize', () => {
-        resizeCanvas();
-        initParticles();
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+            resizeCanvas();
+            initParticles();
+            animateBackground();
+        }, 150);
     });
 }
+
+// Init
+window.addEventListener('load', () => {
+    typeWriter();
+    handleScroll();
+});
