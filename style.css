@@ -88,6 +88,9 @@ header.scrolled {
     display: flex;
     gap: 30px;
 }
+.hero-content {
+    margin-top: 20px;
+}
 
 .nav-links a:hover { color: var(--primary); }
 
@@ -120,16 +123,16 @@ header.scrolled {
 
 /* Hero Section */
 .hero {
-    min-height: 100vh;
+    min-height: 85vh;
     display: flex;
-    align-items: center;
-    padding-top: 80px;
+    align-items: flex-start;
+    padding-top: 40px;
 }
 
 .hero-grid {
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
-    gap: 50px;
+    gap: 30px;
     align-items: center;
 }
 
@@ -199,7 +202,7 @@ header.scrolled {
 .stat strong { font-size: 1.5rem; display: block; color: var(--primary); }
 
 /* Section Generic */
-.section { padding: 100px 0; }
+.section { padding: 70px 0; }
 .section-title {
     font-size: 2.5rem;
     margin-bottom: 50px;
@@ -314,6 +317,14 @@ footer { padding: 50px 0; text-align: center; border-top: 1px solid var(--border
 }
 
 @media (max-width: 768px) {
+    .hero {
+        min-height: auto;
+        padding-top: 20px;
+    }
+
+    .hero h1 {
+        font-size: 2.2rem;
+    }
     .nav-links { display: none; }
     .menu-toggle { display: block; cursor: pointer; }
     .bar { display: block; width: 25px; height: 3px; background: var(--white); margin: 5px 0; transition: 0.4s; }
