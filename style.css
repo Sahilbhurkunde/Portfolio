@@ -468,4 +468,40 @@ footer { padding: 50px 0; text-align: center; border-top: 1px solid var(--border
     .projects-container {
         grid-template-columns: 1fr;
     }
+    /* Live Background Canvas */
+#bg-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -3;
+    pointer-events: none;
+}
+
+/* Make blur layers stay above canvas */
+.bg-blur-1,
+.bg-blur-2 {
+    z-index: -2;
+}
+
+/* Optional subtle animated gradient overlay */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at 20% 20%, rgba(103, 232, 249, 0.05), transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(217, 70, 239, 0.05), transparent 30%);
+    z-index: -2;
+    pointer-events: none;
+    animation: bgFloat 10s ease-in-out infinite alternate;
+}
+
+@keyframes bgFloat {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+    100% {
+        transform: translate(-20px, 20px) scale(1.05);
+    }
+
 }
