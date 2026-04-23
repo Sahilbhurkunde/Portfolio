@@ -88,9 +88,7 @@ header.scrolled {
     display: flex;
     gap: 30px;
 }
-.hero-content {
-    margin-top: 20px;
-}
+
 
 .nav-links a:hover { color: var(--primary); }
 
