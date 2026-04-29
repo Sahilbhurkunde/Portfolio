@@ -16,7 +16,7 @@
     <header id="header">
         <div class="container nav-container">
             <div class="logo">Sahil Bhurkunde<span>.</span></div>
-            <nav>
+            <nav aria-label="Primary navigation">
                 <ul class="nav-links" id="nav-links">
                     <li><a href="#home">Home</a></li>
                     <li><a href="#about">About</a></li>
@@ -27,11 +27,11 @@
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
-            <div class="menu-toggle" id="mobile-menu">
+            <button class="menu-toggle" id="mobile-menu" aria-label="Open navigation menu" aria-expanded="false" type="button">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
-            </div>
+            </button>
         </div>
     </header>
 
@@ -191,14 +191,14 @@
                             <i class="fas fa-envelope"></i>
                             <div>
                                 <h4>Email</h4>
-                                <p>sahilbhurkunde@gmail.com</p>
+                                <p><a href="mailto:sahilbhurkunde@gmail.com">sahilbhurkunde@gmail.com</a></p>
                             </div>
                         </div>
                         <div class="info-item">
                             <i class="fas fa-phone"></i>
                             <div>
                                 <h4>Phone</h4>
-                                <p>+91 7378774776</p>
+                                <p><a href="tel:+917378774776">+91 7378774776</a></p>
                             </div>
                         </div>
                         <div class="info-item">
@@ -224,8 +224,8 @@
         <div class="container">
             <p>&copy; 2026 Sahil Bhurkunde. Designed with <i class="fas fa-heart"></i></p>
             <div class="social-links">
-                <a href="#"><i class="fab fa-linkedin"></i></a>
-                <a href="https://github.com/Sahilbhurkunde/"><i class="fab fa-github"></i></a>
+                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/Sahilbhurkunde/" aria-label="GitHub"><i class="fab fa-github"></i></a>
             </div>
         </div>
     </footer>

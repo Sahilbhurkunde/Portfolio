@@ -57,14 +57,16 @@ window.addEventListener('scroll', () => {
 // Mobile Menu
 if (menuToggle && navLinks) {
     menuToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-        menuToggle.classList.toggle('open');
+        const isOpen = navLinks.classList.toggle('active');
+        menuToggle.classList.toggle('open', isOpen);
+        menuToggle.setAttribute('aria-expanded', String(isOpen));
     });
 
     document.querySelectorAll('.nav-links a').forEach((link) => {
         link.addEventListener('click', () => {
             navLinks.classList.remove('active');
             menuToggle.classList.remove('open');
+            menuToggle.setAttribute('aria-expanded', 'false');
         });
     });
 }
